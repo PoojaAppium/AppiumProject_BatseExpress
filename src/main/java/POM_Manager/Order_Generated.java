@@ -1,8 +1,6 @@
 package POM_Manager;
 
 import java.io.IOException;
-import java.time.Duration;
-
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,7 +8,6 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 
 import A_utilities.MobileDriverFactory;
-import A_utilities.Read_Excel;
 import POM.Excel;
 import POM.Tracking;
 import io.appium.java_client.android.AndroidDriver;
@@ -28,8 +25,6 @@ public class Order_Generated {
 	private WebElement Order_Time;
 	@FindBy(how=How.ID , using = "com.batse.batseexpressmanager:id/customerNameTv")
 	private WebElement Customer_Name;
-	@FindBy(how=How.ID , using = "com.batse.batseexpressmanager:id/tv_price")
-	private WebElement Item_Amount;
 	@FindBy(how=How.ID , using = "com.batse.batseexpressmanager:id/amountToCollectTv")
 	private WebElement Total_Pay;
 	@FindBy(how=How.ID , using = "com.batse.batseexpressmanager:id/tv_accept")
@@ -53,6 +48,18 @@ public class Order_Generated {
 	@FindBy(how=How.ID , using = "com.batse.batseexpress:id/tv_o_id")
 	private WebElement orderID;
 	
+	@FindBy(how=How.ID , using = "com.batse.batseexpressmanager:id/tv_price")
+	private WebElement item_portionPrice;
+	@FindBy(how=How.ID , using = "com.batse.batseexpressmanager:id/tv_total_price")
+	private WebElement Total;
+	@FindBy(how=How.ID , using = "com.batse.batseexpressmanager:id/amountToCollectTv")
+	private WebElement Payble;
+	@FindBy(how=How.ID , using = "com.batse.batseexpressmanager:id/tv_addons")
+	private WebElement ADons;
+	
+
+	
+	
 	
 	
 	
@@ -73,7 +80,7 @@ public class Order_Generated {
 	 public void Accept_Order_Any() {
 		
 		//driver.activateApp("com.batse.batseexpressmanager");
-		MDF.WaitForElement(NEW_ORDER);
+		MDF.WaitForElement(30 , NEW_ORDER);
 		try {
 		if(NEW_ORDER.isDisplayed()){
 			
@@ -93,28 +100,62 @@ public class Order_Generated {
 	
     public void Accept_Order_Selected() throws IOException, InterruptedException  {
     	
-    	int ID = (int) E.ReadExcel();
+    	
+    	
+    	int ID = (int) E.ReadExcel(0,0,0);
     	
     	System.out.println("DONE1");
     	Thread.sleep(1000);
     	
+    	MDF.WaitForElement(30 ,NEW_ORDER);
+    
     	int OrderID = MDF.Extract_int(Order_ID);
     	System.out.println("DONE");
 		try {
 		if(OrderID == ID){
-		
+		        Thread.sleep(2000);
+		        MDF.Click(Arrow);
+		        Thread.sleep(2000);
+		        int PaybleAmount =  MDF.Extract_int(Payble);
+		        MDF.AssertPrice(PaybleAmount, E.ReadExcel(0, 5, 0));
+		        int portionAmount =  MDF.Extract_int(item_portionPrice);
+		        MDF.AssertPrice(portionAmount, E.ReadExcel(0, 1, 0));
+		      //  int Customization =  MDF.Extract_int(ADons);
+		     //   MDF.AssertPrice(Customization, E.ReadExcel(1, 0, 0));
+		        try {
+		        int taxes =  MDF.Extract_int(Taxes);
+		        MDF.AssertPrice(taxes, E.ReadExcel(0, 3, 0));
+		        int total =  MDF.Extract_int(Total);
+		        MDF.AssertPrice(total, E.ReadExcel(0, 5, 0));
 				MDF.Click(Accept_Request);
-			
+		        }
+		        catch(NoSuchElementException E2) {
+		        	try {
+		        	  int deliveryCharges =  MDF.Extract_int(DeliveryCharges);
+				      MDF.AssertPrice(deliveryCharges, E.ReadExcel(0, 4, 0));
+				      int total =  MDF.Extract_int(Total);
+				        MDF.AssertPrice(total, E.ReadExcel(0, 5, 0));
+				        Thread.sleep(2000);
+		    		MDF.Click(Accept_Request);
+		        	}
+		        	catch(NoSuchElementException E3) {
+		        		 int total =  MDF.Extract_int(Total);
+					        MDF.AssertPrice(total, E.ReadExcel(0, 5, 0));
+					        Thread.sleep(2000);
+			    		MDF.Click(Accept_Request);
+		        	}
+		        }
 		}
 		}
 		
 		catch(NoSuchElementException E) {
 			
 		if(OrderID!=ID) {
+			 Thread.sleep(2000);
 			MDF.Click(Refuse_Order);
 			
 			}
-		else {
+else {
 			System.out.println("No Order Request Was Generated Between flow");
 		}
 		}
@@ -125,7 +166,7 @@ public class Order_Generated {
 	
     public void Refuse_Order() throws InterruptedException {
 		
-    	MDF.WaitForElement(NEW_ORDER);
+    	MDF.WaitForElement(30 ,NEW_ORDER);
   
 		try {
 		if(NEW_ORDER.isDisplayed()){
@@ -156,5 +197,17 @@ public class Order_Generated {
     public void Orderrefuse() {
     	MDF.Click(Refuse_Order);
     }
+    
+   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 	
 }

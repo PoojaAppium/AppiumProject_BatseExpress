@@ -1,5 +1,7 @@
 package POM;
 
+import java.io.IOException;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -12,7 +14,7 @@ public class Outlet_Details {
 	
 	MobileDriverFactory MDF;
 	AndroidDriver<WebElement> driver;
-	
+	Excel E;	
 	
 	@FindBy(how=How.ID , using = "com.batse.batseexpress:id/img_uncheck_box")
 	private WebElement Customization;
@@ -26,7 +28,7 @@ public class Outlet_Details {
 	private WebElement Portion_Price;
 	
 	public Outlet_Details(AndroidDriver<WebElement> driver) {
-		
+		E = new Excel(driver);
 		MDF = new MobileDriverFactory(driver);
 		PageFactory.initElements(driver, this);
 	}
@@ -56,6 +58,26 @@ public class Outlet_Details {
 
 	}
 	
+	public int Total_Price_AllCustomization() throws IOException {
+		
+		
+		return MDF.SumAmount_W2Int(Portion_Price, E.ReadExcel(1,0,0) );
+
+		}
+	
+	
+public void Add_ALL_Customization(String ItemName) throws InterruptedException, IOException {
+		
+		Thread.sleep(2000);
+		MDF.AssertTitle(Header, ItemName);
+		MDF.Extract_int(Add);
+		MDF.SelectAllCustomization();
+		Thread.sleep(2000);
+		int Sum= MDF.SumAmount_W2Int(Portion_Price, E.ReadExcel(1,0,0));
+		int Total = MDF.Extract_int(Add);
+		MDF.AssertPrice(Sum, Total);
+		
+	}
 	
 }
 

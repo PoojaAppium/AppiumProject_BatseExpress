@@ -6,9 +6,11 @@
       <class name="Script.scenarios_User">
         <methods>
           <include name="SetUp"/>
+          <include name="CancelRequestByUser"/>
+          <include name="MakeOrder_AllCustomozation1portion_CurrentLocation"/>
+          <include name="Check_Transaction"/>
           <include name="Quit"/>
-          <include name="DispatchOrder"/>
-          <include name="MakeOrder"/>
+          <include name="Order_History"/>
         </methods>
       </class> <!-- Script.scenarios_User -->
     </classes>

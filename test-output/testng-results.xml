@@ -1,25 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="2" passed="2" failed="0" skipped="0">
+<testng-results ignored="3" total="15" passed="12" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2022-01-04T16:58:35 IST" name="Default suite" finished-at="2022-01-04T17:03:09 IST" duration-ms="273816">
+  <suite started-at="2022-02-18T15:54:00 IST" name="Default suite" finished-at="2022-02-18T15:57:36 IST" duration-ms="216063">
     <groups>
     </groups>
-    <test started-at="2022-01-04T16:58:35 IST" name="Default test" finished-at="2022-01-04T17:03:09 IST" duration-ms="273816">
+    <test started-at="2022-02-18T15:54:00 IST" name="Default test" finished-at="2022-02-18T15:57:36 IST" duration-ms="216063">
       <class name="Script.scenarios_User">
-        <test-method is-config="true" signature="SetUp()[pri:0, instance:Script.scenarios_User@2eae8e6e]" started-at="2022-01-04T16:58:35 IST" name="SetUp" finished-at="2022-01-04T16:58:49 IST" duration-ms="13436" status="PASS">
+        <test-method is-config="true" signature="SetUp()[pri:0, instance:Script.scenarios_User@54422e18]" started-at="2022-02-18T15:54:00 IST" name="SetUp" finished-at="2022-02-18T15:54:15 IST" duration-ms="14476" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- SetUp -->
-        <test-method signature="MakeOrder()[pri:1, instance:Script.scenarios_User@2eae8e6e]" started-at="2022-01-04T16:58:49 IST" name="MakeOrder" finished-at="2022-01-04T17:02:07 IST" duration-ms="198317" status="PASS">
+        <test-method signature="MakeOrderFromBanner()[pri:0, instance:Script.scenarios_User@54422e18]" started-at="2022-02-18T15:54:15 IST" name="MakeOrderFromBanner" finished-at="2022-02-18T15:54:15 IST" duration-ms="14" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- MakeOrder -->
-        <test-method signature="DispatchOrder()[pri:2, instance:Script.scenarios_User@2eae8e6e]" started-at="2022-01-04T17:02:07 IST" name="DispatchOrder" finished-at="2022-01-04T17:03:09 IST" duration-ms="62009" status="PASS">
+        </test-method> <!-- MakeOrderFromBanner -->
+        <test-method signature="MakeOrderFromCart()[pri:0, instance:Script.scenarios_User@54422e18]" started-at="2022-02-18T15:54:15 IST" name="MakeOrderFromCart" finished-at="2022-02-18T15:54:15 IST" duration-ms="2" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- DispatchOrder -->
-        <test-method is-config="true" signature="Quit()[pri:0, instance:Script.scenarios_User@2eae8e6e]" started-at="2022-01-04T17:03:09 IST" name="Quit" finished-at="2022-01-04T17:03:09 IST" duration-ms="0" status="PASS">
+        </test-method> <!-- MakeOrderFromCart -->
+        <test-method signature="MakeOrderFromCategories()[pri:0, instance:Script.scenarios_User@54422e18]" started-at="2022-02-18T15:54:15 IST" name="MakeOrderFromCategories" finished-at="2022-02-18T15:54:15 IST" duration-ms="7" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- MakeOrderFromCategories -->
+        <test-method signature="OrderHistory()[pri:0, instance:Script.scenarios_User@54422e18]" started-at="2022-02-18T15:54:15 IST" name="OrderHistory" finished-at="2022-02-18T15:54:15 IST" duration-ms="2" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- OrderHistory -->
+        <test-method signature="Profile()[pri:0, instance:Script.scenarios_User@54422e18]" started-at="2022-02-18T15:54:15 IST" name="Profile" finished-at="2022-02-18T15:54:15 IST" duration-ms="4" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Profile -->
+        <test-method signature="TestInt()[pri:0, instance:Script.scenarios_User@54422e18]" started-at="2022-02-18T15:54:15 IST" name="TestInt" finished-at="2022-02-18T15:54:15 IST" duration-ms="30" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- TestInt -->
+        <test-method signature="TrackingStatus()[pri:0, instance:Script.scenarios_User@54422e18]" started-at="2022-02-18T15:54:15 IST" name="TrackingStatus" finished-at="2022-02-18T15:54:15 IST" duration-ms="1" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- TrackingStatus -->
+        <test-method signature="TransactionStatus()[pri:0, instance:Script.scenarios_User@54422e18]" started-at="2022-02-18T15:54:15 IST" name="TransactionStatus" finished-at="2022-02-18T15:54:15 IST" duration-ms="2" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- TransactionStatus -->
+        <test-method signature="MakeOrder_AllCustomozation1portion_CurrentLocation()[pri:1, instance:Script.scenarios_User@54422e18]" started-at="2022-02-18T15:54:15 IST" name="MakeOrder_AllCustomozation1portion_CurrentLocation" finished-at="2022-02-18T15:57:03 IST" duration-ms="168088" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- MakeOrder_AllCustomozation1portion_CurrentLocation -->
+        <test-method signature="CancelRequestByUser()[pri:0, instance:Script.scenarios_User@54422e18]" started-at="2022-02-18T15:57:03 IST" name="CancelRequestByUser" finished-at="2022-02-18T15:57:21 IST" depends-on-methods="Script.scenarios_User.MakeOrder_AllCustomozation1portion_CurrentLocation" duration-ms="18496" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- CancelRequestByUser -->
+        <test-method signature="Check_Transaction()[pri:0, instance:Script.scenarios_User@54422e18]" started-at="2022-02-18T15:57:21 IST" name="Check_Transaction" finished-at="2022-02-18T15:57:26 IST" depends-on-methods="Script.scenarios_User.CancelRequestByUser" duration-ms="4452" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Check_Transaction -->
+        <test-method signature="Order_History()[pri:0, instance:Script.scenarios_User@54422e18]" started-at="2022-02-18T15:57:26 IST" name="Order_History" finished-at="2022-02-18T15:57:36 IST" depends-on-methods="Script.scenarios_User.Check_Transaction" duration-ms="10353" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Order_History -->
+        <test-method is-config="true" signature="Quit()[pri:0, instance:Script.scenarios_User@54422e18]" started-at="2022-02-18T15:57:36 IST" name="Quit" finished-at="2022-02-18T15:57:36 IST" duration-ms="1" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- Quit -->

@@ -8,7 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 import A_utilities.MobileDriverFactory;
 import io.appium.java_client.android.AndroidDriver;
 
-public class PrePaymentAlert {
+public class Alert{
 
 	AndroidDriver<WebElement> driver;
 	MobileDriverFactory MDF;
@@ -19,7 +19,7 @@ public class PrePaymentAlert {
 	@FindBy(how=How.ID , using ="com.batse.batseexpress:id/cancelText")
 	private WebElement NO;
 	
-	public PrePaymentAlert(AndroidDriver<WebElement> driver) {
+	public Alert(AndroidDriver<WebElement> driver) {
 		
 		MDF = new MobileDriverFactory(driver);
 		PageFactory.initElements(driver, this);
@@ -31,6 +31,9 @@ public class PrePaymentAlert {
 		Thread.sleep(1000);
 		MDF.Click(YES);
 	}
+	
+	
+	
 	
 	
 }

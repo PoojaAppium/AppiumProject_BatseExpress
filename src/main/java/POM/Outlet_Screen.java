@@ -1,5 +1,7 @@
 package POM;
 
+import java.io.IOException;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -66,5 +68,21 @@ public class Outlet_Screen  {
 		return MDF.Extract_int(Total_Price);
 	}
 	
+public void Add_Item_AC(String Outlet_Name , String Item_Name) throws InterruptedException, IOException {
+		
+		Thread.sleep(1000);
+		MDF.AssertTitle(header, Outlet_Name);
+		MDF.Click(Add);
+		Thread.sleep(1000);
+		OD.Add_ALL_Customization(Item_Name);
+		Thread.sleep(1000);
+        int T1 =  OD.Total_Price_AllCustomization();
+        OD.Add();
+        int T2 = MDF.Extract_int(TotalPrice);
+        MDF.AssertPrice(T1, T2);
+        Thread.sleep(1000);
 
+	}
+	
+	
 }

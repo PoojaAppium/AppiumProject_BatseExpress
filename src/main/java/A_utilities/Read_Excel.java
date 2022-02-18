@@ -24,7 +24,7 @@ public Read_Excel(WebDriver Driver) {
 		this.Driver = Driver;
 	}
 
-    public int Read() throws IOException {   
+    public int Read(int sheet ,int row , int cell ) throws IOException {   
         //Create an object of File class to open xlsx file
         File file =    new File(".\\TestData\\OrderID.xlsx");
         
@@ -34,7 +34,7 @@ public Read_Excel(WebDriver Driver) {
         XSSFWorkbook wb = new XSSFWorkbook(inputStream);
   
         //Creating a Sheet object using the sheet Name
-       int orderID =  (int) wb.getSheetAt(0).getRow(0).getCell(0).getNumericCellValue();
+       int orderID =  (int) wb.getSheetAt(sheet).getRow(row).getCell(cell).getNumericCellValue();
  
        System.out.println(orderID);
         return orderID;
@@ -42,4 +42,36 @@ public Read_Excel(WebDriver Driver) {
         
        
     }
+    
+    
+    
+    public String ReadString(int sheet ,int row , int cell ) throws IOException {   
+        //Create an object of File class to open xlsx file
+        File file =    new File(".\\TestData\\OrderID.xlsx");
+        
+        FileInputStream inputStream = new FileInputStream(file);
+        
+
+        XSSFWorkbook wb = new XSSFWorkbook(inputStream);
+  
+        //Creating a Sheet object using the sheet Name
+       String Data =   wb.getSheetAt(sheet).getRow(row).getCell(cell).getStringCellValue();
+ 
+       System.out.println(Data);
+        return Data;
+       
+        
+       
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

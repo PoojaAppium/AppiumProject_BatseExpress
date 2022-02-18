@@ -49,12 +49,12 @@ public class Tracking {
 		
 	}
 	
-	public void WriteOrderID() throws IOException, InterruptedException {
-		WIE.Write(order_id());
+	public void WriteOrderID(int sheet , int row , int cell ) throws IOException, InterruptedException {
+		WIE.Write(sheet, row , cell ,order_id());
 	}
    
-	public void ReadOrderID() throws IOException {
-		RE.Read();
+	public void ReadOrderID(int sheet , int row , int cell ) throws IOException {
+		RE.Read(sheet , row , cell);
 	}
 
 }

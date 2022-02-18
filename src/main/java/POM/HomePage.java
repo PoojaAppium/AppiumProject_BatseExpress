@@ -1,5 +1,6 @@
 package POM;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -27,9 +28,11 @@ public class HomePage {
 	 }
 	
 	public void Scroll_To_OutletList(String Outlet) throws InterruptedException {
+	
+		Thread.sleep(3000);
+		MDF.Scroll_Down(Outlet);	
 		
-		Thread.sleep(5000);
-		MDF.Scroll_Down();	
+	
 	}
 	
 	public void Select_Outlet(String Outlet) throws InterruptedException {

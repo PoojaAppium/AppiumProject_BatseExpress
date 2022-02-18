@@ -32,7 +32,7 @@ public class Write_in_Excel {
 		}
 
 
-	public void Write(int orderNo) throws IOException{
+	public void Write(int sheet ,int row , int cell , int orderNo) throws IOException{
         
     	
         File file =    new File(".//TestData//OrderID.xlsx");
@@ -42,7 +42,7 @@ public class Write_in_Excel {
        
         XSSFWorkbook  wbs = new XSSFWorkbook(inputStream);
         
-        wbs.getSheetAt(0).createRow(0).createCell(0).setCellValue(orderNo);
+        wbs.getSheetAt(sheet).createRow(row).createCell(cell).setCellValue(orderNo);
         
 
         FileOutputStream outputStream = new FileOutputStream(".//TestData//OrderID.xlsx");
@@ -53,4 +53,30 @@ public class Write_in_Excel {
         
 
     }
+	
+public void WriteString(int sheet ,int row , int cell , String orderNo) throws IOException{
+        
+    	
+        File file =    new File(".//TestData//OrderID.xlsx");
+       
+        FileInputStream inputStream = new FileInputStream(file);
+        
+       
+        XSSFWorkbook  wbs = new XSSFWorkbook(inputStream);
+        
+        wbs.getSheetAt(sheet).createRow(row).createCell(cell).setCellValue(orderNo);
+        
+
+        FileOutputStream outputStream = new FileOutputStream(".//TestData//OrderID.xlsx");
+        wbs.write(outputStream);
+        outputStream.close();
+       
+        
+        
+
+    }
+	
+	
+	
+	
 }

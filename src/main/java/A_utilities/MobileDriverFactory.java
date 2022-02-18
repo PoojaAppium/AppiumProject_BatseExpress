@@ -1,9 +1,13 @@
 package A_utilities;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
@@ -16,6 +20,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 
+import io.appium.java_client.MobileBy;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.touch.WaitOptions;
@@ -25,7 +30,7 @@ public class MobileDriverFactory {
 
 	
 	AndroidDriver<WebElement> driver ;
-	
+
 	
 	public MobileDriverFactory(AndroidDriver<WebElement> driver)
 	{
@@ -150,14 +155,24 @@ public void SendKey(WebElement Space , String Text) throws InterruptedException 
 	    DOWN, UP, LEFT, RIGHT;
 	}
 		 
+  public void Get_Outlet(String outlet) {
+		
+		WebElement Ele = driver.findElement(By.xpath("//android.widget.TextView[@text='"+outlet+"']"));
+	    Ele.click();
+	
+	}
+  
+  public WebElement Outlet(String outlet) {
+		
+		return driver.findElement(By.xpath("//android.widget.TextView[@text='"+outlet+"']"));
+	  
+	
+	}
+  
+  
+  public void Scroll_Down() {
 	 
-	 
-	 
-	 public void Scroll_Down() throws InterruptedException {
-		 
-		 Thread.sleep(3000);
-		 
-		 //The viewing size of the device
+		  //The viewing size of the device
 		    Dimension size = driver.manage().window().getSize();
 		  
 		    //x position set to mid-screen horizontally
@@ -171,41 +186,113 @@ public void SendKey(WebElement Space , String Text) throws InterruptedException 
 
 		    TouchAction action = new TouchAction(driver);
 		    action.press(PointOption.point(width, startPoint)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(2000))).moveTo(PointOption.point(width, endPoint)).release().perform();
+		    
+	  }
+  
+	
+	 
+	 
+	 public void Scroll_Down(String outlet) throws InterruptedException {
+		 
+		 Thread.sleep(3000);
+		 
+		 try {
+			
+				  //The viewing size of the device
+				    Dimension size = driver.manage().window().getSize();
+				  
+				    //x position set to mid-screen horizontally
+				    int width = size.width / 2;
 
+				    //Starting y location set to 80% of the height (near bottom)
+				    int startPoint = (int) (size.getHeight() * 0.80);
+
+				    //Ending y location set to 20% of the height (near top)
+				    int endPoint = (int) (size.getHeight() * 0.20);
+
+				    TouchAction action = new TouchAction(driver);
+				    action.press(PointOption.point(width, startPoint)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(2000))).moveTo(PointOption.point(width, endPoint)).release().perform();
+				    
+			  
+		    Outlet(outlet).isDisplayed();
+		 }
+		 
+		 catch(NoSuchElementException E) {
+			 
+	
+				  //The viewing size of the device
+				    Dimension size1 = driver.manage().window().getSize();
+				  
+				    //x position set to mid-screen horizontally
+				    int width1 = size1.width / 2;
+
+				    //Starting y location set to 80% of the height (near bottom)
+				    int startPoint1 = (int) (size1.getHeight() * 0.80);
+
+				    //Ending y location set to 20% of the height (near top)
+				    int endPoint1 = (int) (size1.getHeight() * 0.20);
+
+				    TouchAction action1 = new TouchAction(driver);
+				    action1.press(PointOption.point(width1, startPoint1)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(2000))).moveTo(PointOption.point(width1, endPoint1)).release().perform();
+		
+			    Outlet(outlet).isDisplayed();
+		 }
 	 }
 	 
-	public void Get_Outlet(String outlet) {
-		
-		WebElement Ele = driver.findElement(By.xpath("//android.widget.TextView[@text='"+outlet+"']"));
-	    Ele.click();
-	
-	}
 	
 	public int Extract_int(WebElement Ele) {
 		
 		
 		String Price = Ele.getText();
 		String A = Price.replaceAll("[^0-9]", "");
-		int Amount = Integer.parseInt(A);
+		int Amount = Integer. parseInt(A);    
 		System.out.println(Amount);
 		 return Amount ;
+	
 	}
 	 
-	public int SumAmount(WebElement Ele1 , WebElement Ele2 ) {
+	public int SumAmount(WebElement Ele1 , WebElement i ) {
 		
 
 		String Price1 = Ele1.getText();
 
 		String AA = Price1.replaceAll("[^0-9]", "");
-		int Amount1 = Integer.parseInt(AA);
+		int Amount1 = Integer. parseInt(AA);
+	       
 	
+		
+	
+		
 		 
-		 String Price2 = Ele2.getText();
+		 String Price2 = i.getText();
 			String BB = Price2.replaceAll("[^0-9]", "");
-			int Amount2 = Integer.parseInt(BB);
+		    int Amount2 = Integer. parseInt(BB);
+		       
+			
 			
 		
 		int Sum = Amount1 + Amount2;
+		
+		System.out.println(Sum);
+		
+		return Sum;
+		
+
+		
+	}
+	
+public int SumAmount_W2Int(WebElement Ele1 , int i ) {
+		
+
+		String Price1 = Ele1.getText();
+
+		String AA = Price1.replaceAll("[^0-9]", "");
+		String string_temp1 = new Double(AA).toString();
+		String string_form1 = string_temp1.substring(0,string_temp1.indexOf('.'));
+		double t1 = Double.valueOf(string_form1);
+		int Amount1 = (int)t1;
+	
+		int Sum = Amount1 + i;
 		
 		System.out.println(Sum);
 		
@@ -249,9 +336,9 @@ public String Extract_Text(WebElement Ele) {
 	 
 }
 
-public void WaitForElement(WebElement Ele) {
+public void WaitForElement(int Seconds , WebElement Ele) {
 	
-	WebDriverWait wait = new WebDriverWait (driver, 30);
+	WebDriverWait wait = new WebDriverWait (driver, Seconds);
 	wait.until(ExpectedConditions.visibilityOf(Ele));
 	 
 }
@@ -298,14 +385,114 @@ public void Validate_Switch_Status( String Outlet)  {
 		if (text == Outlet && text == "Closed") {
 			driver.quit();
 		}}
+
+
+
+public void MoveToElement(int A , String text) {
+	
+	new Actions(driver).moveToElement(driver.findElement(By.xpath("//android.widget.TextView[@text = '"+A+"']//following::android.widget.TextView[@text = '"+text+"'][1]")));
+
+}	
+	
+public void ChangeStatus(int OrderID , String text) {
+	WebElement Ele =driver.findElement(By.xpath("//android.widget.TextView[@text = '"+OrderID+"']//following::android.widget.TextView[@text = '"+text+"'][1]"));
+    Ele.click();
+
+}
+	
+
+public int AllItem() {
+	
+	List<WebElement> items_AddButton = driver.findElements(By.xpath("//android.widget.TextView[@text = 'ADD']"));
+	int no_of_ADD = items_AddButton.size();
+	System.out.print(no_of_ADD);
+	
+	return no_of_ADD;
+
+	
+}
+
+public void SelectAllCustomization() throws IOException {
+	
+	List<WebElement> customizationNo = driver.findElements(By.id("com.batse.batseexpress:id/img_uncheck_box"));
+	int no_of_Cus = customizationNo.size();
+	System.out.print(no_of_Cus);
+	
+for (int i = 1 ;  i<=no_of_Cus ; i++) {
+	
+	 WebElement CheckBox = driver.findElement(By.xpath("//android.widget.TextView[@text = 'Please select add-ons']//following::android.widget.ImageView[@index = '0']["+i+"]"));
+	 CheckBox.click();
+
+	 WebElement price_C = driver.findElement(By.xpath("//android.widget.TextView[@text = 'Please select add-ons']//following::android.widget.TextView[@index = '2']["+i+"]"));
+	   String Price = price_C.getText();
+	   String A = Price.replaceAll("[^0-9]", "");
+	   int Amount = Integer. parseInt(A);
+	   Write_in_Excel W = new Write_in_Excel(driver);
+	   W.Write(0, 5+i, 0, Amount);
+	
+
+}
+
+int Total = 0 ;
+
+for(int j = 1 ; j<=no_of_Cus ; j++) {
+
+
+
+   Read_Excel R = new Read_Excel(driver);
+   int  Cj  = R.Read(0, 5+j, 0);
+   Total = Total + Cj ;
+   Write_in_Excel W = new Write_in_Excel(driver);
+   W.Write(1, 0, 0, Total);                        ///// Total customization written here
+   
+
+  }
+ 
+System.out.println(Total);
+  
+
+}
+
+
+public void scrollByID_Manager() {
+	String Id = "com.batse.batseexpressmanager:id/h_scroll_view" ;
+    try {
+
+         driver.findElement(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().resourceId(\""+Id+"\").instance(2));")); 
+
+    } catch (Exception e) {
+       e.printStackTrace();
+    }
+}
+
+
+public void Back() {
+	
+	WebElement Back = driver.findElement(By.id("com.batse.batseexpress:id/img_back"));
+	Back.click();
 	
 	
+}
+
+
+public boolean OrderHistory_Validate_OutletName(String Outletname) {
 	
-	}
+	return Outlet(Outletname).getText().equalsIgnoreCase(Outletname);
+
 	
 	
+}
+
+public WebElement Text_WebElement(String Text) {
 	
+	return driver.findElement(By.xpath("//android.widget.TextView[@text='"+Text+"']"));
 	
+}
+
+
+}
+
+
 	
 	
 	

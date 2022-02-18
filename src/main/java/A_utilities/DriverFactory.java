@@ -1,5 +1,6 @@
 package A_utilities;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -106,5 +107,17 @@ public class DriverFactory {
 		
 	}
 	
+	public void MoveToElement(int A) {
+		
+		new Actions(Driver).moveToElement(Driver.findElement(By.xpath("//android.widget.TextView[@text = '"+A+"']")));
+	
+	}
 
+	
+	
+	
+	
+	
+	
+	
 }

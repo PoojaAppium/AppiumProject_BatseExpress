@@ -1,5 +1,7 @@
 package POM;
 
+import java.io.IOException;
+
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -21,7 +23,8 @@ public class Order_Details  {
 	Outlet_Screen OS;
 	Select_Address SA;
 	Check_Out CO;
-	PrePaymentAlert PPA;
+	Alert PPA;
+	Excel E;
 
 	@FindBy(how=How.ID , using = "com.batse.batseexpress:id/selectAddressLabelTv")
 	private WebElement Select_Address;
@@ -51,7 +54,7 @@ public class Order_Details  {
 	private WebElement EnterPasswordHeader;
 	@FindBy(how=How.ID , using = "com.batse.batseexpress:id/cv_check_out")
 	private WebElement ViewCart;
-	@FindBy(how=How.XPATH , using = "//android.widget.TextView[@text='PAY']")
+	@FindBy(how=How.XPATH , using = "//android.widget.TextView[@text='CONTINUE']")
 	private WebElement PAY;
 	@FindBy(how=How.ID , using = "com.batse.batseexpress:id/tv_total")
 	private WebElement PAY_Amount;
@@ -66,8 +69,18 @@ public class Order_Details  {
 	@FindBy(how=How.ID , using = "com.batse.batseexpress:id/selectedAddressLl")
 	private WebElement CurrentLocation;
 	
+	@FindBy(how=How.ID , using = "com.batse.batseexpress:id/okTv")
+	private WebElement OK_Button;
+	@FindBy(how=How.ID , using = "com.batse.batseexpress:id/rl_add")
+	private WebElement ADD;
+	@FindBy(how=How.ID , using = "com.batse.batseexpress:id/titleTv")
+	private WebElement Alert;
+	
+	
+	
 	public Order_Details(AndroidDriver<WebElement> driver) {
-			
+		super();
+		E = new Excel(driver);
 		L = new Login(driver);
 		V= new Verification(driver);
 		BD = new Basic_Details(driver);
@@ -77,20 +90,35 @@ public class Order_Details  {
 		SA= new Select_Address(driver);
 		CO = new Check_Out(driver);
 		MDF = new MobileDriverFactory(driver);
-		PPA = new PrePaymentAlert(driver);
+		PPA = new Alert(driver);
 		PageFactory.initElements(driver, this);
 		
 	}
 	
-	public void Make_Order(String MN ,String FN, String SN, String LN, String NationalID, String Email, String Pass , String Outlet , String item) throws InterruptedException {
+	
+	public int PaybleAmount() {
+		
+		return MDF.Extract_int(PAY_Amount);
+	}
+	
+	
+	
+	public void Make_Order(String MN ,String FN, String SN, String LN, String NationalID, String Email, String Pass , String Outlet , String item) throws InterruptedException, IOException {
 		
 		int View_Cart_Amount = OS.VIEW_CART_Ammount();
 		MDF.Click(VIEW_CART);
 		Thread.sleep(1000);
 		int Total = MDF.Extract_int(PAY_Amount);
 		int CustomizionAmount = MDF.Extract_int(CustomizationAmount);
-		int PortionAmount = MDF.Extract_int(TaxesAmount);
-		int Taxes = MDF.Extract_int(PortionPrice);
+		int Taxes  = MDF.Extract_int(TaxesAmount);
+		int PortionAmount = MDF.Extract_int(PortionPrice);
+		
+		//=======
+		E.WriteExcel(0,1,0,CustomizionAmount);
+		E.WriteExcel(0,2,0,PortionAmount);
+		E.WriteExcel(0,3,0,Taxes);
+	
+		//=====
 		
 	   int	T = CustomizionAmount + PortionAmount;
 		MDF.AssertPrice(View_Cart_Amount, T);
@@ -99,6 +127,7 @@ public class Order_Details  {
 		MDF.AssertPrice(Total, GrandTotal);
 		
 		int Pay = MDF.Extract_int(PAY_Amount);
+		E.WriteExcel(0,0,4,Pay);
 		
 		
 		MDF.Click(Select_Address);
@@ -125,22 +154,45 @@ public class Order_Details  {
 
 //Assert Price				
 				int DeliveryAmount = MDF.Extract_int(DeliveryCharge);
+				E.WriteExcel(0,4,0,DeliveryAmount);
 			    int	Final = DeliveryAmount +GrandTotal;
+			    E.WriteExcel(0,5,0,Final);
 			    MDF.AssertPrice(Pay, Final);
+			  
+			    
 //---------------------
 			    
  // Add Comment 		    
 			    MDF.EnterData(AddComment, "Testing");
 //--------------			    
 				MDF.Click(PAY);
+				Thread.sleep(2000);
+			try {	
+				
+				
+				if(Alert.isDisplayed()) {
+					
+					MDF.Click(OK_Button);
+					MDF.Click(ADD);
+					MDF.Click(ADD);
+					MDF.Click(PAY);
+					CO.PAY();
+				}
+			}
+			catch(NoSuchElementException E) {
+				
+				System.out.println("No Limit Of Making Order");
 				CO.PAY();
+				
+			}
+				
 				}
 				}
 		
 			
 			
 			
-			catch(NoSuchElementException E) {
+			catch(NoSuchElementException E11) {
 		
 				EP.Enter_Password(Pass);
 				HP.Select_Outlet(Outlet);
@@ -155,7 +207,9 @@ public class Order_Details  {
 				
 				
 				int DeliveryAmount = MDF.Extract_int(DeliveryCharge);
+				E.WriteExcel(0,4,0,DeliveryAmount);
 			    int	Final = DeliveryAmount +GrandTotal;
+			    E.WriteExcel(0,5,0,Final);
 			    MDF.AssertPrice(Pay, Final);
 				
 	//Add Comment 
@@ -164,7 +218,25 @@ public class Order_Details  {
 			    
 //-----------
 				MDF.Click(PAY);
-				CO.PAY();
+				Thread.sleep(2000);
+				
+				try {	
+					if(Alert.isDisplayed()) {
+						Thread.sleep(2000);
+						MDF.Click(OK_Button);
+						MDF.Click(ADD);
+						MDF.Click(ADD);
+						MDF.Click(PAY);
+						CO.PAY();
+					}
+				}
+				catch(NoSuchElementException E) {
+					
+					System.out.println("No Limit Of Making Order");
+					CO.PAY();
+					
+				}
+					
 				
 			}}
 		}
@@ -182,7 +254,7 @@ public class Order_Details  {
 	
 	
 	
-public void Make_Order_DifferentAddress(String MN ,String FN, String SN, String LN, String NationalID, String Email, String Pass , String Outlet , String item) throws InterruptedException {
+public void Make_Order_DifferentAddress(String MN ,String FN, String SN, String LN, String NationalID, String Email, String Pass , String Outlet , String item) throws InterruptedException, IOException {
 		
 		int View_Cart_Amount = OS.VIEW_CART_Ammount();
 		MDF.Click(VIEW_CART);
@@ -231,6 +303,7 @@ public void Make_Order_DifferentAddress(String MN ,String FN, String SN, String 
 //Assert Price				
 				int DeliveryAmount = MDF.Extract_int(DeliveryCharge);
 			    int	Final = DeliveryAmount +GrandTotal;
+			    E.WriteExcel(0,5,0,Final);
 			    MDF.AssertPrice(Pay, Final);
 //---------------------
 			    
@@ -247,6 +320,7 @@ public void Make_Order_DifferentAddress(String MN ,String FN, String SN, String 
 	//Assert Price				
 					int DeliveryAmount = MDF.Extract_int(DeliveryCharge);
 				    int	Final = DeliveryAmount +GrandTotal;
+				    E.WriteExcel(0,5,0,Final);
 				    MDF.AssertPrice(Pay, Final);
 	//--------------------- 
     // Add Comment 
@@ -260,7 +334,7 @@ public void Make_Order_DifferentAddress(String MN ,String FN, String SN, String 
 			}
 			
 			
-			catch(NoSuchElementException E) {
+			catch(NoSuchElementException E11) {
 		
 				EP.Enter_Password(Pass);
 				HP.Select_Outlet(Outlet);
@@ -281,7 +355,9 @@ public void Make_Order_DifferentAddress(String MN ,String FN, String SN, String 
 				MDF.AddressSelection("Home").click();
 				
 				int DeliveryAmount = MDF.Extract_int(DeliveryCharge);
+				E.WriteExcel(0,4,0,DeliveryAmount);
 			    int	Final = DeliveryAmount +GrandTotal;
+			    E.WriteExcel(0,5,0,Final);
 			    MDF.AssertPrice(Pay, Final);
 				
 	//Add Comment 
@@ -298,7 +374,9 @@ public void Make_Order_DifferentAddress(String MN ,String FN, String SN, String 
 					SA.SelectAddress("Home");
 					
 					int DeliveryAmount = MDF.Extract_int(DeliveryCharge);
+					E.WriteExcel(0,4,0,DeliveryAmount);
 				    int	Final = DeliveryAmount +GrandTotal;
+				    E.WriteExcel(0,5,0,Final);
 				    MDF.AssertPrice(Pay, Final);
 				    
 	 //Add Comment 
@@ -327,7 +405,9 @@ public void Make_Order_DifferentAddress(String MN ,String FN, String SN, String 
 			MDF.AddressSelection("Home").click();
 			
 			int DeliveryAmount = MDF.Extract_int(DeliveryCharge);
+			E.WriteExcel(0,4,0,DeliveryAmount);
 		    int	Final = DeliveryAmount +GrandTotal;
+		    E.WriteExcel(0,5,0,Final);
 		    MDF.AssertPrice(Pay, Final);
 		    
  //Add Comment 
@@ -345,7 +425,9 @@ public void Make_Order_DifferentAddress(String MN ,String FN, String SN, String 
 				SA.SelectAddress("Home");
 				
 				int DeliveryAmount = MDF.Extract_int(DeliveryCharge);
+				E.WriteExcel(0,4,0,DeliveryAmount);
 			  int	Final = DeliveryAmount +GrandTotal;
+			  E.WriteExcel(0,5,0,Final);
 			    MDF.AssertPrice(Pay, Final);
 			 
 //Add Comment 
@@ -367,6 +449,291 @@ public void Make_Order_DifferentAddress(String MN ,String FN, String SN, String 
 	
 	}
 
+
+
+
+public void Make_Order_AllCustomization(String MN ,String FN, String SN, String LN, String NationalID, String Email, String Pass , String Outlet , String item) throws InterruptedException, IOException {
+	
+	int View_Cart_Amount = OS.VIEW_CART_Ammount();
+	MDF.Click(VIEW_CART);
+	Thread.sleep(1000);
+	int Total = MDF.Extract_int(PAY_Amount);
+	int CustomizionAmount =E.ReadExcel(1, 0, 0);
+	
+	
+	try {
+		
+	int Taxes  = MDF.Extract_int(TaxesAmount);
+int PortionAmount = MDF.Extract_int(PortionPrice);
+	
+	//=======
+//	E.WriteExcel(0,1,0,CustomizionAmount); /// Already written in (1,0,0)
+	E.WriteExcel(0,2,0,PortionAmount);
+	E.WriteExcel(0,3,0,Taxes);
+
+	//=====
+	
+     int	T = CustomizionAmount + PortionAmount;
+     MDF.AssertPrice(View_Cart_Amount, T);
+	
+     int	GrandTotal = CustomizionAmount+PortionAmount+Taxes;
+ //    E.WriteExcel(0,8,0,GrandTotal);
+	 MDF.AssertPrice(Total, GrandTotal);
+	
+	int Pay = MDF.Extract_int(PAY_Amount);
+	System.out.println("Wite in Excel");
+	
+	
+	MDF.Click(Select_Address);
+	
+	if (LoginHeader.isDisplayed()) {
+		
+		Thread.sleep(2000);
+		L.FillMobileNumber(MN);
+		
+		try {
+		if (Verificationheader.isDisplayed()) {
+			
+		V.VerificationN();
+		BD.FillDetails(FN, SN, LN, NationalID, Email, Pass);
+		HP.Scroll_To_OutletList(Outlet);
+		HP.Select_Outlet(Outlet);
+		Thread.sleep(1000);
+//Price Assertion
+		
+		MDF.Click(ViewCart);
+		Thread.sleep(4000);
+		
+//---------------
+
+//Assert Price				
+			int DeliveryAmount = MDF.Extract_int(DeliveryCharge);
+			E.WriteExcel(0,4,0,DeliveryAmount);
+		     int	Final = DeliveryAmount +GrandTotal;
+		     MDF.AssertPrice(Pay, Final);
+		     E.WriteExcel(0,5,0,Final);
+//---------------------
+		    
+// Add Comment 		    
+		    MDF.EnterData(AddComment, "Testing");
+//--------------			    
+			MDF.Click(PAY);
+			Thread.sleep(2000);
+		try {	
+			
+			
+			if(Alert.isDisplayed()) {
+				
+				MDF.Click(OK_Button);
+				MDF.Click(ADD);
+				MDF.Click(ADD);
+				MDF.Click(PAY);
+				CO.WriteWalletAmount(0, 0, 2);                 ////WalletAmount Write
+				CO.PAY();
+			}
+		}
+		catch(NoSuchElementException E) {
+			
+			System.out.println("No Limit Of Making Order");
+			CO.WriteWalletAmount(0, 0, 2);                 ////WalletAmount Write
+			CO.PAY();
+			
+		}
+			
+			}
+			}
+	
+		
+		
+		
+		catch(NoSuchElementException E11) {
+	
+			EP.Enter_Password(Pass);
+			HP.Select_Outlet(Outlet);
+			Thread.sleep(1000);
+//Assert Price				
+	
+			MDF.Click(ViewCart);
+			Thread.sleep(1000);
+			
+			
+//----------------------
+			
+			
+			int DeliveryAmount = MDF.Extract_int(DeliveryCharge);
+			E.WriteExcel(0,4,0,DeliveryAmount);
+		    int	Final = DeliveryAmount +GrandTotal;
+		    E.WriteExcel(0,5,0,Final);
+		    MDF.AssertPrice(Pay, Final);
+			
+//Add Comment 
+		    
+		    MDF.EnterData(AddComment, "Testing");
+		    
+//-----------
+			MDF.Click(PAY);
+			Thread.sleep(2000);
+			
+			try {	
+				if(Alert.isDisplayed()) {
+					Thread.sleep(2000);
+					MDF.Click(OK_Button);
+					MDF.Click(ADD);
+					MDF.Click(ADD);
+					MDF.Click(PAY);
+					CO.WriteWalletAmount(0, 0, 2);                 ////WalletAmount Write
+					CO.PAY();
+				}
+			}
+			catch(NoSuchElementException E) {
+				
+				System.out.println("No Limit Of Making Order");
+				CO.WriteWalletAmount(0, 0, 2);                 ////WalletAmount Write
+				CO.PAY();
+				
+			}
+				
+			
+		}}
+	
+
+	
+	}
+	catch(NoSuchElementException E2) {
+		
+	int PortionAmount = MDF.Extract_int(PortionPrice);
+	
+	//=======
+//	E.WriteExcel(0,1,0,CustomizionAmount); /// Already written in (1,0,0)
+	E.WriteExcel(0,2,0,PortionAmount);
+	//E.WriteExcel(0,3,0,Taxes);
+
+	//=====
+	
+     int	T = CustomizionAmount + PortionAmount;
+     MDF.AssertPrice(View_Cart_Amount, T);
+	
+     int	GrandTotal = CustomizionAmount+PortionAmount;
+  //   E.WriteExcel(0,8,0,GrandTotal);
+	 MDF.AssertPrice(Total, GrandTotal);
+	
+	int Pay = MDF.Extract_int(PAY_Amount);
+	
+	MDF.Click(Select_Address);
+	
+	if (LoginHeader.isDisplayed()) {
+		
+		Thread.sleep(2000);
+		L.FillMobileNumber(MN);
+		
+		try {
+		if (Verificationheader.isDisplayed()) {
+			
+		V.VerificationN();
+		BD.FillDetails(FN, SN, LN, NationalID, Email, Pass);
+		HP.Scroll_To_OutletList(Outlet);
+		HP.Select_Outlet(Outlet);
+		Thread.sleep(1000);
+//Price Assertion
+		
+		MDF.Click(ViewCart);
+		Thread.sleep(1000);
+		
+//---------------
+
+//Assert Price				
+			int DeliveryAmount = MDF.Extract_int(DeliveryCharge);
+			E.WriteExcel(0,4,0,DeliveryAmount);
+		     int	Final = DeliveryAmount +GrandTotal;
+		     E.WriteExcel(0,5,0,Final);
+		     MDF.AssertPrice(Pay, Final);
+		    
+//---------------------
+		    
+// Add Comment 		    
+		    MDF.EnterData(AddComment, "Testing");
+//--------------			    
+			MDF.Click(PAY);
+			Thread.sleep(2000);
+		try {	
+			
+			
+			if(Alert.isDisplayed()) {
+				
+				MDF.Click(OK_Button);
+				MDF.Click(ADD);
+				MDF.Click(ADD);
+				MDF.Click(PAY);
+				CO.WriteWalletAmount(0, 0, 2);                 ////WalletAmount Write
+				CO.PAY();
+			}
+		}
+		catch(NoSuchElementException E) {
+			
+			System.out.println("No Limit Of Making Order");
+			CO.WriteWalletAmount(0, 0, 2);                 ////WalletAmount Write
+			CO.PAY();
+			
+		}
+			
+			}
+			}
+	
+		
+		
+		
+		catch(NoSuchElementException E11) {
+	
+			EP.Enter_Password(Pass);
+			HP.Select_Outlet(Outlet);
+			Thread.sleep(1000);
+//Assert Price				
+	
+			MDF.Click(ViewCart);
+			Thread.sleep(1000);
+			
+			
+//----------------------
+			
+			
+			int DeliveryAmount = MDF.Extract_int(DeliveryCharge);
+			E.WriteExcel(0,4,0,DeliveryAmount);
+		    int	Final = DeliveryAmount +GrandTotal;
+		    E.WriteExcel(0,5,0,Final);
+		    MDF.AssertPrice(Pay, Final);
+			
+//Add Comment 
+		    
+		    MDF.EnterData(AddComment, "Testing");
+		    
+//-----------
+			MDF.Click(PAY);
+			Thread.sleep(2000);
+			
+			try {	
+				if(Alert.isDisplayed()) {
+					Thread.sleep(2000);
+					MDF.Click(OK_Button);
+					MDF.Click(ADD);
+					MDF.Click(ADD);
+					MDF.Click(PAY);
+					CO.WriteWalletAmount(0, 0, 2);                 ////WalletAmount Write
+					CO.PAY();
+				}
+			}
+			catch(NoSuchElementException E) {
+				
+				System.out.println("No Limit Of Making Order");
+				CO.WriteWalletAmount(0, 0, 2);                     //// ////WalletAmount Write
+				CO.PAY();
+				
+			}
+				
+			
+		}}
+	}
+
+}
 
 }	
 

@@ -24,14 +24,67 @@ public class Excel {
 		
 	}
 	
-	public double ReadExcel() throws IOException {
-	return RWE.Read();
+	public int ReadExcel(int sheet ,int row , int cell) throws IOException {
+	return RWE.Read(sheet , row , cell );
 		
 	}
 
-	public void WriteExcel(int value) throws IOException {
-		WIE.Write(value);
+	public void WriteExcel(int sheet ,int row , int cell , int orderNo) throws IOException {
+		WIE.Write(sheet , row , cell , orderNo);
 	}
 
+	public String ReadExcelString(int sheet ,int row , int cell) throws IOException {
+		return RWE.ReadString(sheet , row , cell );
+			
+		}
+	public void WriteExcelString(int sheet ,int row , int cell , String Data) throws IOException {
+		WIE.WriteString(sheet , row , cell , Data);
+	}
+	
+//________________________________________________________________________________________________________________
+	
+	public void Write_OutletName(int sheet ,int row , int cell , int orderNo) throws IOException {
+		WIE.Write(sheet , row , cell , orderNo);
+	}
+	
+	public void Write_ItemName(int sheet ,int row , int cell , int orderNo) throws IOException {
+		WIE.Write(sheet , row , cell , orderNo);
+	}
+	
+	public void Write_Portion(int sheet ,int row , int cell , int orderNo) throws IOException {
+		WIE.Write(sheet , row , cell , orderNo);
+	}
+	
+	public void Write_Customization(int sheet ,int row , int cell , int orderNo) throws IOException {
+		WIE.Write(sheet , row , cell , orderNo);
+	}
+	
+	public void Write_OrderID(int sheet ,int row , int cell , int orderNo) throws IOException {
+		WIE.Write(sheet , row , cell , orderNo);
+	}
+	
+	public void Write_WalletAmount(int sheet ,int row , int cell , int orderNo) throws IOException {
+		WIE.Write(sheet , row , cell , orderNo);
+	}
+	
+	public void Write_PaybleAmount(int sheet ,int row , int cell , int orderNo) throws IOException {
+		WIE.Write(sheet , row , cell , orderNo);
+	}
+	
+	public void Write_ItemAmount(int sheet ,int row , int cell , int orderNo) throws IOException {
+		WIE.Write(sheet , row , cell , orderNo);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
