@@ -65,7 +65,7 @@ public class CancellationScreen {
 		
 	}
 	
-	
+  
   public void ValidateCancellationText_AfterReturnWalletAmount() throws InterruptedException {
 		
 		Thread.sleep(2000);

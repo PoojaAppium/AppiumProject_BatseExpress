@@ -30,8 +30,14 @@ public class HomePage {
 	public void Scroll_To_OutletList(String Outlet) throws InterruptedException {
 	
 		Thread.sleep(3000);
-		MDF.Scroll_Down(Outlet);	
 		
+		try {
+		MDF.Scroll_Down(Outlet);	
+		}
+		
+		catch(NoSuchElementException 	E) {
+			MDF.Scroll_Down(Outlet);
+		}
 	
 	}
 	

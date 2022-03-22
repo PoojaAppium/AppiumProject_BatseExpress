@@ -58,14 +58,6 @@ public class Order_Generated {
 	private WebElement ADons;
 	
 
-	
-	
-	
-	
-	
-
-
-	
 	public Order_Generated(AndroidDriver<WebElement> driver) {
 		T = new Tracking(driver);
 		E = new Excel(driver);

@@ -15,6 +15,7 @@ public class Outlet_Screen  {
 	AndroidDriver<WebElement> driver;
 	MobileDriverFactory MDF;
 	Outlet_Details OD;
+	Excel E;
 
 	
 	
@@ -34,6 +35,8 @@ public class Outlet_Screen  {
 	private WebElement VIEW_CART;
 	@FindBy(how=How.ID , using = "com.batse.batseexpress:id/tv_total_price")
 	private WebElement TotalPrice;
+	@FindBy(how=How.ID , using = "com.batse.batseexpress:id/tv_item_name")
+	private WebElement ItemName;
 	
 	
 	
@@ -41,16 +44,19 @@ public class Outlet_Screen  {
 	
 	public Outlet_Screen(AndroidDriver<WebElement> driver) {
 		
-	
+	    E = new Excel(driver);
 		MDF = new MobileDriverFactory(driver);
 		OD = new Outlet_Details(driver);
 		PageFactory.initElements(driver, this);
 	}
 	
-	public void Add_Item(String Outlet_Name , String Item_Name) throws InterruptedException {
+	public void Add_Item(String Outlet_Name , String Item_Name) throws InterruptedException, IOException {
 		
 		Thread.sleep(1000);
 		MDF.AssertTitle(header, Outlet_Name);
+	    String Item =	MDF.Extract_Text(ItemName);
+	    E.WriteExcelString(0, 7, 0, Item);
+		
 		MDF.Click(Add);
 		Thread.sleep(1000);
 		OD.Add_Customization(Item_Name);

@@ -3,16 +3,15 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="Script.scenarios_User">
+      <class name="API.JIRA">
         <methods>
-          <include name="SetUp"/>
-          <include name="CancelRequestByUser"/>
-          <include name="MakeOrder_AllCustomozation1portion_CurrentLocation"/>
-          <include name="Check_Transaction"/>
-          <include name="Quit"/>
-          <include name="Order_History"/>
+          <include name="Search_Outlet_On_HomePage"/>
+          <include name="Get_Category"/>
+          <include name="Get_OutletID"/>
+          <include name="Get_Item"/>
+          <include name="FillPassword"/>
         </methods>
-      </class> <!-- Script.scenarios_User -->
+      </class> <!-- API.JIRA -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

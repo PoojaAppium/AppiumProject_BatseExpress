@@ -10,8 +10,7 @@ import io.appium.java_client.android.AndroidDriver;
 
 public class Basic_Details {
 
-	MobileDriverFactory MDF;
-	AndroidDriver<WebElement> driver;
+	MobileDriverFactory MDF;	AndroidDriver<WebElement> driver;
 	
 	@FindBy(how=How.XPATH , using = "//android.widget.TextView[@text = 'Basic Detais']")
 	private WebElement Header;

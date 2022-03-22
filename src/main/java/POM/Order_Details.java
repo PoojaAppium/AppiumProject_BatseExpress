@@ -76,6 +76,9 @@ public class Order_Details  {
 	@FindBy(how=How.ID , using = "com.batse.batseexpress:id/titleTv")
 	private WebElement Alert;
 	
+	@FindBy(how=How.ID , using = "com.batse.batseexpress:id/tv_address")
+	private WebElement DeliveredAddress;
+	
 	
 	
 	public Order_Details(AndroidDriver<WebElement> driver) {
@@ -506,7 +509,9 @@ int PortionAmount = MDF.Extract_int(PortionPrice);
 		
 //---------------
 
-//Assert Price				
+//Assert Price	
+		    String Address = MDF.Extract_Text(DeliveredAddress);
+		    E.WriteExcelString(0,8,0,Address);
 			int DeliveryAmount = MDF.Extract_int(DeliveryCharge);
 			E.WriteExcel(0,4,0,DeliveryAmount);
 		     int	Final = DeliveryAmount +GrandTotal;
@@ -559,7 +564,8 @@ int PortionAmount = MDF.Extract_int(PortionPrice);
 			
 //----------------------
 			
-			
+			String Address = MDF.Extract_Text(DeliveredAddress);
+			E.WriteExcelString(0,8,0,Address);
 			int DeliveryAmount = MDF.Extract_int(DeliveryCharge);
 			E.WriteExcel(0,4,0,DeliveryAmount);
 		    int	Final = DeliveryAmount +GrandTotal;
@@ -641,7 +647,9 @@ int PortionAmount = MDF.Extract_int(PortionPrice);
 		
 //---------------
 
-//Assert Price				
+//Assert Price
+		String Address = MDF.Extract_Text(DeliveredAddress);
+		E.WriteExcelString(0,8,0,Address);
 			int DeliveryAmount = MDF.Extract_int(DeliveryCharge);
 			E.WriteExcel(0,4,0,DeliveryAmount);
 		     int	Final = DeliveryAmount +GrandTotal;
@@ -695,7 +703,8 @@ int PortionAmount = MDF.Extract_int(PortionPrice);
 			
 //----------------------
 			
-			
+			String Address = MDF.Extract_Text(DeliveredAddress);
+			E.WriteExcelString(0,8,0,Address);
 			int DeliveryAmount = MDF.Extract_int(DeliveryCharge);
 			E.WriteExcel(0,4,0,DeliveryAmount);
 		    int	Final = DeliveryAmount +GrandTotal;

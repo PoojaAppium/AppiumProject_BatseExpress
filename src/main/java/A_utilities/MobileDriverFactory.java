@@ -98,7 +98,7 @@ public void SendKey(WebElement Space , String Text) throws InterruptedException 
 
 			    switch (direction) {
 			        case RIGHT:
-			            startY = (int) (size.height / 2);
+			            startY = (int) (size.height / 5);
 			            startX = (int) (size.width * 0.90);
 			            endX = (int) (size.width * 0.05);
 			            new TouchAction(driver)
@@ -490,11 +490,75 @@ public WebElement Text_WebElement(String Text) {
 }
 
 
+
+public void SelectAll_Item(String itemName) throws IOException {
+	
+	List<WebElement> customizationNo = driver.findElements(By.id("com.batse.batseexpress:id/itemsRv"));
+	int no_of_item = customizationNo.size();
+	System.out.print(no_of_item);
+	
+for (int i = 1 ;  i<=no_of_item ; i++) {
+	
+	 WebElement Add = driver.findElement(By.xpath("//android.widget.TextView[@text = '"+itemName+"']//following::android.widget.ImageView[@text = 'ADD']["+i+"]"));
+	 Add.click();
+	 WebElement CheckBox = driver.findElement(By.xpath("//android.widget.TextView[@text = 'Please select add-ons']//following::android.widget.ImageView[@index = '0']["+i+"]"));
+	 CheckBox.click();
+
+	 WebElement price_C = driver.findElement(By.xpath("//android.widget.TextView[@text = 'Please select add-ons']//following::android.widget.TextView[@index = '2']["+i+"]"));
+	   String Price = price_C.getText();
+	   String A = Price.replaceAll("[^0-9]", "");
+	   int Amount = Integer. parseInt(A);
+	   Write_in_Excel W = new Write_in_Excel(driver);
+	   W.Write(0, 5+i, 0, Amount);
+	
+
+}
+
+int Total = 0 ;
+
+for(int j = 1 ; j<=no_of_item ; j++) {
+
+
+
+   Read_Excel R = new Read_Excel(driver);
+   int  Cj  = R.Read(0, 5+j, 0);
+   Total = Total + Cj ;
+   Write_in_Excel W = new Write_in_Excel(driver);
+   W.Write(1, 0, 0, Total);                        ///// Total customization written here
+   
+
+  }
+ 
+System.out.println(Total);
+  
+
+}	
+
+
+public WebElement Status_Manager(int OrderID , String text) {
+	WebElement Ele =driver.findElement(By.xpath("//android.widget.TextView[@text = '"+OrderID+"']//following::android.widget.TextView[@text = '"+text+"'][1]"));
+   return Ele;
+
+}
+	
+public void Scroll_Downward(int OrderID , String text) throws InterruptedException {
+	
+	//WebElement element =driver.findElement(By.xpath("//android.widget.TextView[@text = '"+OrderID+"']//following::android.widget.TextView[@text = '"+text+"'][1]"));
+	  
+	((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.xpath("//android.widget.TextView[@text = '"+OrderID+"']//following::android.widget.TextView[@text = '"+text+"'][1]"))
+	  );
+	Thread.sleep(500); 
+	
+	
 }
 
 
-	
-	
+
+
+
+
+}
+
 	
 	
 	

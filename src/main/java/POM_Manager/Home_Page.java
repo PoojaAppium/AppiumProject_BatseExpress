@@ -8,6 +8,7 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 
 import A_utilities.MobileDriverFactory;
+import A_utilities.MobileDriverFactory.DIRECTION;
 import io.appium.java_client.android.AndroidDriver;
 
 public class Home_Page {
@@ -67,7 +68,30 @@ public class Home_Page {
 		
 	}
 	
+//______________________________________________________________________________________________________________________	
 	
+	 public boolean findElement(int OrderID , String status)
+	  	{
+	  		try {
+	  		
+				if((MDF.Status_Manager(OrderID, status) != null))
+	  			{
+	  				return true;
+	  			}
+	  			else
+	  			{
+	  				return false;
+	  			}
+	  		} catch (Exception e) {
+	  			// TODO: handle exception
+	  			return false;
+	  		}
+	  		
+	  	}
+	
+//____________________________________________________________________________________________________________________
+	 
+	 
 public boolean Switch_Status() throws InterruptedException {
 	
 	try {
@@ -128,69 +152,57 @@ public void Click_on_Switch() throws InterruptedException {
 	   return Logout;
    }
    
+  
    
     
    public void Preparing(int OrderID) throws InterruptedException {
-   	Thread.sleep(1000);
+   	Thread.sleep(3000);
    	MDF.Click(preparing);
-   	try {
-   		MDF.ChangeStatus(OrderID , "Ready");
-   	try {
-   	MDF.ChangeStatus(OrderID , "Ready");
-   	}
-   	catch(NoSuchElementException E) {
-   		MDF.Scroll_Down();
-   	   	MDF.ChangeStatus(OrderID , "Ready");
-   		
-   	}
-   	}
-   	catch(NoSuchElementException E2) {
-   		try {
-   		   		MDF.Scroll_Down();
-   		     	MDF.Scroll_Down();
-   		   	   	MDF.ChangeStatus(OrderID , "Ready");
-   		}
-   		catch(NoSuchElementException E3) {
-   			    MDF.Scroll_Down();
-   			    MDF.Scroll_Down();
-		     	MDF.Scroll_Down();
-		   	   	MDF.ChangeStatus(OrderID , "Ready");
-   		}
-   		   	} 	}
+   	Thread.sleep(2000);
+
+   	while(true)
+    {
+    	if(findElement(OrderID  , "Ready"))
+    	{
+    		break;
+    	}
+        else 
+        {
+           MDF.Scroll_Down();
+        }
+        
+       
+        
+    }
+    MDF.ChangeStatus(OrderID, "Ready");
    
-   
+   }
    
    
    public void Ready(int OrderID) throws InterruptedException {
 	   
 	   
-	   	Thread.sleep(1000);
-	    MDF.scrollByID_Manager();
+	 
+		Thread.sleep(2000);
 	   	MDF.Click(Ready);
-		try {
-	   		MDF.ChangeStatus(OrderID , "Dispatch Now");
-	   	try {
-	   	MDF.ChangeStatus(OrderID , "Dispatch Now");
-	   	}
-	   	catch(NoSuchElementException E) {
-	   		MDF.Scroll_Down();
-	   	   	MDF.ChangeStatus(OrderID , "Dispatch Now");
-	   		
-	   	}
-	   	}
-	   	catch(NoSuchElementException E2) {
-	   		try {
-	   		   		MDF.Scroll_Down();
-	   		     	MDF.Scroll_Down();
-	   		   	   	MDF.ChangeStatus(OrderID , "Dispatch Now");
-	   		}
-	   		catch(NoSuchElementException E3) {
-	   			    MDF.Scroll_Down();
-	   			    MDF.Scroll_Down();
-			     	MDF.Scroll_Down();
-			   	   	MDF.ChangeStatus(OrderID , "Dispatch Now");
-	   		}
-	   		   	} 
+	   	Thread.sleep(2000);
+	   	
+	   	while(true)
+	    {
+	    	if(findElement(OrderID , "Dispatch Now"))
+	    	{
+	    		break;
+	    	}
+	        else 
+	        {
+	           MDF.Scroll_Down();
+	        }
+	        
+	       
+	        
+	    }
+	    MDF.ChangeStatus(OrderID, "Dispatch Now");
+	   
 	   	
    }
    

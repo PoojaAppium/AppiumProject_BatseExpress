@@ -20,7 +20,7 @@ public class Transaction {
 	Excel E;
 	
 
-	@FindBy(how=How.XPATH , using = "//android.widget.TextView[@bounds='[899,313][1050,374]']")
+	@FindBy(how=How.XPATH , using = "//android.widget.TextView[@resource-id='com.batse.batseexpress:id/amount'] [1]")
 	private WebElement TransactionAmount;
 	@FindBy(how=How.XPATH , using = "//android.widget.TextView[@bounds='[30,344][443,395]']")
 	private WebElement TransactionTiming;
